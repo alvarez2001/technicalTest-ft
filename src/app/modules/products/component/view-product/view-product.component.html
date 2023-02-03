@@ -1,0 +1,79 @@
+<h1 mat-dialog-title>{{ title }}</h1>
+<div mat-dialog-content class="pt-2">
+  <ng-container *ngIf="product">
+    <mat-list role="list">
+      <mat-list-item role="listitem"
+        ><strong>Fecha de creación:</strong>
+        {{ product.created_at | date : "fullDate" }}
+      </mat-list-item>
+
+      <mat-list-item role="listitem"
+        ><strong>Ultima modificación:</strong>
+        {{ product.updated_at | date : "fullDate" }}
+      </mat-list-item>
+
+      <mat-list-item role="listitem" *ngIf="product.deleted_at"
+        ><strong>Fecha de eliminación:</strong>
+        {{ product.deleted_at | date : "fullDate" }}
+      </mat-list-item>
+
+      <mat-list-item role="listitem"
+        ><strong>Referencia:</strong> {{ product.reference }}
+      </mat-list-item>
+
+      <mat-list-item role="listitem"
+        ><strong>Nombre:</strong> {{ product.name }}
+      </mat-list-item>
+
+      <mat-list-item role="listitem"
+        ><strong>Categoria:</strong> {{ product.category }}
+      </mat-list-item>
+
+      <mat-list-item role="listitem"
+        ><strong>Precio:</strong> {{ product.price | currency }}
+      </mat-list-item>
+
+      <mat-list-item role="listitem"
+        ><strong>Peso:</strong> {{ product.weight }}
+      </mat-list-item>
+
+      <mat-list-item role="listitem"
+        ><strong>Stock:</strong> {{ product.stock }}
+      </mat-list-item>
+    </mat-list>
+
+    <mat-accordion *ngIf="sales.length > 0">
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Ventas </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <table mat-table [dataSource]="sales">
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+            <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="unit_price">
+            <th mat-header-cell *matHeaderCellDef>Precio Unitario</th>
+            <td mat-cell *matCellDef="let element">{{ element.unit_price }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="total_price">
+            <th mat-header-cell *matHeaderCellDef>Precio Total</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.total_price }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ng-container>
+</div>
+<div mat-dialog-actions class="justify-content-center">
+  <button mat-button mat-dialog-close type="button">Cerrar</button>
+  <button *ngIf="!product?.deleted_at" mat-raised-button mat-dialog-close type="button" color="primary" (click)="registerSale()">Vender</button>
+</div>

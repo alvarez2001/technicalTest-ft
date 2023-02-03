@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content class="pt-2">
+  <form [formGroup]="form">
+
+    <div class="alert alert-warning" *ngIf="data.stock === 0" role="alert">
+      No es posible realizar la venta, ya que no se dispone de stock
+    </div>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Referencia del producto</mat-label>
+      <input matInput type="text" disabled [value]="data.reference" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Nombre del producto</mat-label>
+      <input matInput type="text" disabled [value]="data.name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Cantidad</mat-label>
+      <input matInput type="number" formControlName="quantity" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Precio Unitario</mat-label>
+      <input matInput type="number" disabled [value]="data.price" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Precio Total</mat-label>
+      <input matInput type="number" disabled [value]="totalPrice" />
+    </mat-form-field>
+
+  </form>
+</div>
+<div mat-dialog-actions class="justify-content-center">
+  <button mat-button mat-dialog-close type="button">Cerrar</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="form.invalid"
+    type="button"
+    (click)="saveDocument()"
+  >
+    Guardar
+  </button>
+</div>
